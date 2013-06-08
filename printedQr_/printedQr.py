@@ -5,6 +5,7 @@
 """
 
 import qrcode
+import logging
 import sys
 import os
 import argparse
@@ -66,6 +67,8 @@ def argument_parser():
 
 
 def execute():
+    logging.basicConfig(level=logging.INFO)
+    log = logger = logging.getLogger('printedQr')
     args = argument_parser()
     qr = QRGen(args.scale)
     qr.make_qr()
@@ -100,12 +103,17 @@ def execute():
                 print "Sorry, could not find openscad in your system"
                 sys.exit(1)
 
-        subprocess.call(
-            [
-                openscad_binary, args.filename + ".scad",
-                "-o", args.filename + ".stl"
-            ]
-        )
+        log.info("Converting file to STL, please wait a few mintutes")
+
+        with open(os.devnull, 'w') as none:
+            subprocess.call(
+                [
+                    openscad_binary, args.filename + ".scad",
+                    "-o", args.filename + ".stl"
+                ], stdout=none, stderr=none
+            )
+        log.info("Conversion finished, you'll find your stl in %s"
+                 % (args.filename + ".stl"))
     else:
         print qr.make_scad()
 
