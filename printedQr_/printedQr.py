@@ -80,13 +80,14 @@ def execute():
         sys.platform.startswith('win')
 
         openscad_binary = "openscad"
-        window_paths = [
-            os.environment["ProgramFiles"],
-            os.environment["ProgramFiles(x86)"],
-            os.environment["ProgramW6432"]
-        ]
 
         if sys.platform.startswith('win'):
+
+            window_paths = [
+                os.environ["ProgramFiles"],
+                os.environ["ProgramFiles(x86)"],
+                os.environ["ProgramW6432"]
+            ]
             for path in window_paths:
                 openscad_binary = os.path.join(
                     path,
