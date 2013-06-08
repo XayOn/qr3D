@@ -75,7 +75,7 @@ def execute():
             sys.exit(1)
 
     if args.filename:
-        with open(args.filename, "w") as file_:
+        with open(args.filename + ".scad", "w") as file_:
             file_.write(qr.make_scad())
         sys.platform.startswith('win')
 
@@ -100,9 +100,9 @@ def execute():
                 print "Sorry, could not find openscad in your system"
                 sys.exit(1)
 
-        subprocess.Popen(
+        subprocess.call(
             [
-                openscad_binary, args.filename,
+                openscad_binary, args.filename + ".scad",
                 "-o", args.filename + ".stl"
             ]
         )
