@@ -38,11 +38,11 @@ class QRGen(object):
         for row in range(self.qr_base.modules_count):
             for column in range(self.qr_base.modules_count):
                 if self.qr_base.modules[row][column]:
-                    result += '    translate([%(x)s, %(y)s, 0])' % {
+                    result += '    translate([%(x)s, %(y)s, 0]) ' % {
                         'x': 1 * column - self.qr_base.modules_count / 2,
                         'y': - 1 * row + self.qr_base.modules_count / 2
                     }
-                    result += 'cube([%s, %s, 1]);\n' % ("1", "1")
+                    result += 'cube([0.99, 0.99, 1]);\n'
         result += '}\n'
         result += "scale([%s,%s,%s]){ union(){ qrcode(); " \
             % (self.scale, self.scale, self.scale) + \
