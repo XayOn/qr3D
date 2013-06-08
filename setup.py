@@ -25,7 +25,7 @@ setup(
     mantainer='David Francos Cuartero (XayOn)',
     mantainer_email='dfrancos@dlabs.co',
     long_description="Print qr codes in stl or scad",
-    packages=['Digenpy_'],
+    packages=['printedQr'],
     entry_points="""
         [console_scripts]
         calentic = calentic.server:server
