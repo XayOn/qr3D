@@ -17,7 +17,7 @@ for dirpath, dirnames, filenames in os.walk('printedQrWeb'):
         data_files.append([dirpath, [os.path.join(dirpath, f) for f in filenames]])
 
 setup(name='PrintedQrWeb',
-      version='0.0.1',
+      version='0.0.2',
       description='PrintedQr Web interface',
       url='http://printerqr.dlabs.co/',
       download_url='http://printerqr.dlabs.co',
