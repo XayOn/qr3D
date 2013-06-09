@@ -1,4 +1,4 @@
-from flask import Flask, render_template, Response
+from flask import Flask, render_template, make_response
 from printedQr_ import printedQr
 
 app = Flask(__name__)
@@ -12,10 +12,15 @@ def index():
 
 @app.route('/getQr/<text>/<scale>')
 @app.route('/getQr/<text>')
+@app.route('/getQr/<text>/')
 def getQr(text, scale=4):
     qr = printedQr.QRGen(scale=scale, data=text)
     qr.make_qr()
-    return Response(qr.make_scad(), mimetype='application/octet/stream')
+    response = make_response(qr.make_scad)
+    response.headers['Content-Type'] = 'application/octect-stream'
+    response.headers['Content-Disposition'] = 'attachment; filename=Qr' +  \
+        text[:3] + '.scad'
+    return response
 
 
 def server():
