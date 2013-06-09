@@ -14,29 +14,32 @@ for dirpath, dirnames, filenames in os.walk('printedQrWeb'):
         if dirname.startswith('.'):
             del dirnames[i]
     if filenames:
-        data_files.append([dirpath, [os.path.join(dirpath, f) for f in filenames]])
+        data_files.append(
+            [dirpath, [os.path.join(dirpath, f) for f in filenames]]
+        )
 
-setup(name='PrintedQrWeb',
-      version='0.0.2',
-      description='PrintedQr Web interface',
-      url='http://printerqr.dlabs.co/',
-      download_url='http://printerqr.dlabs.co',
-      license='GPL2',
-      requires=['PrintedQr' ],
-      classifiers=[
-          'Development Status :: 4 - Beta',
-      ],
-      long_description="PrintedQr web interface",
-      packages=['printedQrWeb'],
-      data_files=data_files,
-      package_data={
-        'printedQrWeb' : [
+setup(
+    name='PrintedQrWeb',
+    version='0.0.2',
+    description='PrintedQr Web interface',
+    url='http://printerqr.dlabs.co/',
+    download_url='http://printerqr.dlabs.co',
+    license='GPL2',
+    requires=['PrintedQr'],
+    classifiers=[
+        'Development Status :: 4 - Beta',
+    ],
+    long_description="PrintedQr web interface",
+    packages=['printedQrWeb'],
+    data_files=data_files,
+    package_data={
+        'printedQrWeb': [
             'static/'
             'templates/'
-            ]
-      },
-      entry_points="""
+        ]
+    },
+    entry_points="""
         [console_scripts]
-        printedQrweb = printedQrweb:server
-      """
-     )
+        printedQrWeb = printedQrWeb:server
+    """
+)
