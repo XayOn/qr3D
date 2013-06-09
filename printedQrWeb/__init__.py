@@ -18,7 +18,7 @@ def getQr():
     qr.make_qr()
     response = make_response(qr.make_scad())
     response.headers['Content-Type'] = 'application/octect-stream'
-    response.headers['Content-Disposition'] = 'attachment; filename=Qr' +  \
+    response.headers['Content-Disposition'] = 'attachment; filename=Qr_' +  \
         text[:3] + '.scad'
     return response
 
