@@ -19,7 +19,7 @@ opts = {
 
 setup(
     name='printedQr',
-    version='0.3',
+    version='0.4',
     description='Print qr codes in Stl or scad',
     author='David Francos Cuartero',
     author_email='me@davidfrancos.net',
@@ -36,7 +36,7 @@ setup(
     scripts=scripts,
     entry_points="""
         [console_scripts]
-        printedQr = printedQr.printedQr:execute
+        printedQr = printedQr_.printedQr:execute
     """,
     options=opts,
 )
