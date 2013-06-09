@@ -17,6 +17,9 @@ class QRGen(object):
         Main class, generates qr code and scad
     """
     def __init__(self, scale=False, data=""):
+        """
+            Setup essentials
+        """
         self.scale = scale
         if not self.scale:
             self.scale = 4
@@ -29,10 +32,20 @@ class QRGen(object):
         )
 
     def make_qr(self):
+        """
+            Create the qr code
+            This will return an array with all the dots,
+            in true/false status
+        """
         self.qr_base.add_data(self.data)
         self.qr_base.make(fit=True)
 
     def make_scad(self):
+        """
+            Generate the scad content
+            I took part of this code (translate and cubes)
+            from qr2scad, from l0b0: https://github.com/l0b0/qr2scad
+        """
         result = "qr_size=" + str(self.qr_base.modules_count) + ";"
         result += 'module qrcode() {\n'
         for row in range(self.qr_base.modules_count):
@@ -66,12 +79,43 @@ def argument_parser():
     return parser.parse_args()
 
 
+def get_openscad_windows_binary():
+    """
+        Iterate trough common paths to try
+        to find openscad
+    """
+    window_paths = [
+        os.environ["ProgramFiles"],
+        os.environ["ProgramFiles(x86)"],
+        os.environ["ProgramW6432"]
+    ]
+    for path in window_paths:
+        openscad_binary = os.path.join(
+            path,
+            "OpenScad",
+            "openscad.exe"
+        )
+        if os.path.isfile(openscad_binary):
+            break
+    if not os.path.isfile(openscad_binary):
+        print "Sorry, could not find openscad in your system"
+        sys.exit(1)
+    return openscad_binary
+
+
 def execute():
+    """
+        Execute the stuff
+    """
+    # Init logger
     logging.basicConfig(level=logging.INFO)
-    log = logger = logging.getLogger('printedQr')
+    log = logging.getLogger('printedQr')
+    # Get args
     args = argument_parser()
+    # Generate qr
     qr = QRGen(args.scale, sys.argv[1])
     qr.make_qr()
+    # Make some checks
     if args.format == "stl":
         if not args.filename:
             print "Sorry, filename is required to export stl file"
@@ -80,28 +124,10 @@ def execute():
     if args.filename:
         with open(args.filename + ".scad", "w") as file_:
             file_.write(qr.make_scad())
-        sys.platform.startswith('win')
-
         openscad_binary = "openscad"
 
         if sys.platform.startswith('win'):
-
-            window_paths = [
-                os.environ["ProgramFiles"],
-                os.environ["ProgramFiles(x86)"],
-                os.environ["ProgramW6432"]
-            ]
-            for path in window_paths:
-                openscad_binary = os.path.join(
-                    path,
-                    "OpenScad",
-                    openscad_binary + ".exe"
-                )
-                if os.path.isfile(openscad_binary):
-                    break
-            if not os.path.isfile(openscad_binary):
-                print "Sorry, could not find openscad in your system"
-                sys.exit(1)
+            openscad_binary = get_openscad_windows_binary()
 
         log.info("Converting file to STL, please wait a few mintutes")
 
@@ -112,6 +138,7 @@ def execute():
                     "-o", args.filename + ".stl"
                 ], stdout=none, stderr=none
             )
+
         log.info("Conversion finished, you'll find your stl in %s"
                  % (args.filename + ".stl"))
     else:
