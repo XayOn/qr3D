@@ -20,7 +20,7 @@ for dirpath, dirnames, filenames in os.walk('printedQrWeb'):
 
 setup(
     name='PrintedQrWeb',
-    version='0.0.4-1',
+    version='0.0.4-2',
     description='PrintedQr Web interface',
     url='http://printerqr.dlabs.co/',
     download_url='http://printerqr.dlabs.co',
