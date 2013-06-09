@@ -10,7 +10,7 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/getQr/')
+@app.route('/getQr')
 def getQr():
     text = request.form['text']
     scale = request.form['scale']
