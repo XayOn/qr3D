@@ -19,7 +19,7 @@ opts = {
 
 setup(
     name='printedQr',
-    version='0.2',
+    version='0.3',
     description='Print qr codes in Stl or scad',
     author='David Francos Cuartero',
     author_email='me@davidfrancos.net',
