@@ -70,7 +70,7 @@ def execute():
     logging.basicConfig(level=logging.INFO)
     log = logger = logging.getLogger('printedQr')
     args = argument_parser()
-    qr = QRGen(args.scale)
+    qr = QRGen(args.scale, sys.argv[1])
     qr.make_qr()
     if args.format == "stl":
         if not args.filename:
