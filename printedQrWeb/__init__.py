@@ -1,4 +1,4 @@
-from flask import Flask, render_template, make_response
+from flask import Flask, render_template, make_response, request
 from printedQr_ import printedQr
 
 app = Flask(__name__)
@@ -10,10 +10,10 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/getQr/<text>/<scale>')
-@app.route('/getQr/<text>')
-@app.route('/getQr/<text>/')
-def getQr(text, scale=4):
+@app.route('/getQr/')
+def getQr():
+    text = request.form['text']
+    scale = request.form['scale']
     qr = printedQr.QRGen(scale=scale, data=text)
     qr.make_qr()
     response = make_response(qr.make_scad())
