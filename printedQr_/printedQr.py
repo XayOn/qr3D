@@ -16,11 +16,11 @@ class QRGen(object):
     """
         Main class, generates qr code and scad
     """
-    def __init__(self, scale=False):
+    def __init__(self, scale=False, data=""):
         self.scale = scale
         if not self.scale:
             self.scale = 4
-        self.data = ""
+        self.data = data
         self.qr_base = qrcode.QRCode(
             version=1,
             error_correction=qrcode.constants.ERROR_CORRECT_L,
@@ -29,7 +29,7 @@ class QRGen(object):
         )
 
     def make_qr(self):
-        self.qr_base.add_data(sys.argv[1])
+        self.qr_base.add_data(self.data)
         self.qr_base.make(fit=True)
 
     def make_scad(self):
