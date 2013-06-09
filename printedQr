@@ -1,3 +1,0 @@
-#!/usr/bin/env/python
-from printedQr_ import printedQr
-printedQr.execute()
