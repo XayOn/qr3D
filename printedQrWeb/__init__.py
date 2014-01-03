@@ -13,10 +13,8 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/getQr', methods=['POST'])
-def getQr():
-    text = request.form['text']
-    scale = request.form['scale']
+@app.route('/getQr/<text>/<scale>', methods=['POST'])
+def getQr(text, scale):
     qr = printedQr.QRGen(scale=scale, data=text)
 
     with tempfile.NamedTemporaryFile(dir="/var/www/digenpy/static/", delete=False) as file_:
