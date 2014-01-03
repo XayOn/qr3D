@@ -25,6 +25,9 @@
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/coffee-script/1.6.3/coffee-script.min.js"></script>
     <script src="{{url_for('static', filename='js/plugins.js')}}"></script>
+    <script src="{{url_for('static', filename='js/Three.js')}}"></script>
+    <script src="{{url_for('static', filename='js/plane.js')}}"></script>
+    <script src="{{url_for('static', filename='js/thingiview.js')}}"></script>
     <script src="{{url_for('static', filename='js/script.js')}}" type="text/coffeescript"></script>
 
     <meta name="description" content="Generate 3D models of qr codes for printing">
@@ -91,6 +94,10 @@
                         <button class="col-sm-9 col-sm-offset-3 btn btn-success
                             btn-large" onclick="do_qrcode()" > Generate my 3D
                         model </button>
+                        <div class="col-sm-9">
+                            <div id=viewer>
+                            </div>
+                        </div>
 
                         <div class="col-sm-9 col-sm-offset-3">
                             {% with messages = get_flashed_messages() %}

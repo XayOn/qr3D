@@ -1,10 +1,11 @@
-/* Author:
-    David Francos Cuartero
-    GPL 2+
-*/
+window.do_qrcode = () ->
+    $.ajax "/getQr" + "/" + $('#text').val() + "/"+ $('#scale').val(),
+        success: (data, textStatus, jqXHR) ->
+            window.location.href = data
+            window.thingiview.loadSTL data
 
-function do_qrcode(){
-    window.location.href = "/getQr" + "/" + $('#text').val() + "/"+ $('#scale').val();
-}
-
-
+($ document) .ready ->
+    window.thingiurlbase = "/static/js/"
+    window.thingiview = new Thingiview("viewer")
+    window.thingiview.setObjectColor('#C0D8F0')
+    window.thingiview.initScene();
