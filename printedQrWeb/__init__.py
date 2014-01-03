@@ -13,7 +13,7 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/getQr/<text>/<scale>', methods=['POST'])
+@app.route('/getQr/<text>/<scale>', methods=['GET', 'POST'])
 def getQr(text, scale):
     qr = printedQr.QRGen(scale=scale, data=text)
 
