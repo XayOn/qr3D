@@ -2,7 +2,7 @@
 from distutils.core import setup
 import os
 
-scripts=['printedQr']
+scripts=['printedQr_/printedQr.py']
 if os.name is not "posix":
     if os.name is "nt":
         import py2exe
