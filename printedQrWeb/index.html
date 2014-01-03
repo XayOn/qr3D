@@ -1,0 +1,161 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <title>
+        Digenpy - online default wireless dictionary generator tool
+    </title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="Online default wireless dictionary generator tool">
+    <meta name="viewport" content="width=device-width">
+
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/gh-fork-ribbon.css')}}">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/coffee-script/1.6.3/coffee-script.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/coffee-script/1.6.3/coffee-script.min.js"></script>
+    <script src="{{url_for('static', filename='js/plugins.js')}}"></script>
+    <script src="{{url_for('static', filename='js/script.js')}}" type="text/coffeescript"></script>
+
+    <meta name="description" content="Open source WEP/WPA dictionary generator">
+    <link rel="shortcut icon" href="static/favicon.png" />
+    <meta http-equiv="Content-Language" content="en"/>
+    <meta name="keywords" content="Open Source, WEP/WPA, WEP, WPA, dictionary, generator, Telefonica, Jazztel, ONO"
+    <meta name="viewport" content="width=device-width">
+
+    <meta property="og:image" content="http://www.digenpy.org/static/images/airoscript.png"/>
+    <meta property="og:title" content="Digenpy - Open Source WEP/WPA dictionary generator"/>
+    <meta property="og:site_name"
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="https://www.digenpy.org">
+    <meta property="og:description" content="Digenpy - Open Source WEP/WPA dictionary generator"/>
+
+    <link rel="schema.DC" href= "https://purl.org/DC/elements/1.0/">
+    <meta name="DC.Creator" content="David Francos Cuartero">
+    <meta name="DC.Type" content = "">
+    <meta name="DC.Date" content = "2010">
+    <meta name="DC.Format" content = "text/html">
+    <meta name="DC.Language" content = "en">
+
+    <!--[if lt IE 9]>
+        <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="github-fork-ribbon-wrapper right">
+        <div class="github-fork-ribbon">
+            <a href="https://github.com/XayOn/Digenpy">Fork me on GitHub</a>
+        </div>
+    </div>
+        <div style="text-align:center;">
+            <div class="page-header" style="margin-top:0px">
+                <h1 style="font-size:81px; font-family:'Poiret One';
+                    font-weight:normal; "> Digenpy </h1>
+                <p class="lead"> Check your wireless security</p>
+           </div>
+        </div>
+
+
+        <div class="row">
+                <form class="form-horizontal" role=form method="post" action="#" onsubmit="do_digenpy(); return false">
+                    <div class="col-sm-9 col-sm-offset-3">
+                        {% with messages = get_flashed_messages() %}
+                          {% if messages %}
+                            <div class="alert alert-danger">
+                            {% for message in messages %} {{ message }}{% endfor %}
+                            </div>
+                          {% endif %}
+                        {% endwith %}
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-md-4 col-md-offset-1">
+              <p class=lead> To help keep developing Digenpy, you can donate to <a href="http://www.dlabs.co"> Dlabs Hackerspace</a> </p>
+              <div class="col-md-12" style="text-align:center">
+                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                    <input type="hidden" name="cmd" value="_s-xclick">
+                    <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+                    ">
+                    <input type="image" src="https://www.paypalobjects.com/es_ES/ES/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal. La forma rápida y segura de pagar en Internet.">
+                    <img alt="" border="0" src="https://www.paypalobjects.com/es_ES/i/scr/pixel.gif" width="1" height="1">
+                    </form>
+              </div>
+              <p class=lead style="padding-top:15px"> <br/>or buy me a cup of coffee </p>
+              <div class=col-md-12 style="text-align:center">
+                  <p class=lead style="padding-top:15px">
+                      <script id='fbhbxzp'>(function(i){var f,s=document.getElementById(i);f=document.createElement('iframe');f.src='//api.flattr.com/button/view/?uid=XayOn&button=compact&url='+encodeURIComponent(document.URL);f.title='Flattr';f.height=20;f.width=110;f.style.borderWidth=0;s.parentNode.insertBefore(f,s);})('fbhbxzp');</script>
+                  </p>
+                </div>
+            </div>
+        </div>
+        <hr/>
+
+        <div class="row">
+            <div class="col-md-6" style="margin-top:20px">
+                <p class="lead">
+                    Router companies distribute their routers with a <strong class=red>predefined wireless password.</strong><br/>
+                    Those passwords can be usually recreated using an algorithm, wich makes them <strong>unsecure</strong>
+                </p>
+            </div>
+            <div class="col-md-6" style="margin-top:20px">
+                <p class="lead">
+                    <span class=red>Digenpy is a pentesting tool to recover those wireless default passwords.</span><br/>
+                    With digenpy you can easily crack the passwords for most Spanish routers, among others.
+                </p>
+            </div>
+            <div class=col-md-12 style="margin-top:40px">
+                <h1 style="text-align:center"> QR Sample </h3>
+                <div class="col-md-8 col-md-offset-2">
+                    <img src="/static/airoscript.png" class="img-responsive img-rounded" />
+                </div>
+            </div>
+        </div>
+        <div class=row>
+            <div clss="col-md-12" style="margin-top:60px">
+                <h1 style="text-align:center"> Reporting bugs </h3>
+            </div>
+            <div class="col-md-3">
+                <img src="/static/images/Octocat.png" class="img-responsive img-rounded" />
+            </div>
+            <div class="col-md-6">
+                <p class="lead">
+                    You can fill bug reports to <a href="https://github.com/XayOn/Digenpy/issues">my github</a>.
+            </div>
+        </div>
+    </div>
+
+    <div class=footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2">
+                    <h1 class="title"> David Francos Cuartero</h1>
+                </div>
+                <div class=col-md-2 style="max-height:128px">
+                    <img src="/static/images/davidfrancos.png" style="max-height: 128px; margin-top: 10px;" class="img-responsive img-rounded" />
+                </div>
+                <div class=col-md-5>
+                    <p class=lead style="padding-top:10px">
+                        Open-source specialized developer and general hacker.<br/>
+                        Have a look at my <a href="http://davidfrancos.net">page</a> and <a href="http://www.davidfrancos.net/blog">blog</a>
+                    </p>
+                </div>
+
+                <div class="col-md-offset-1 col-md-2" style="background:white; border-radius:3px; text-align:center; padding-top:1px; margin-top:10px;padding-bottom:5px">
+                    <img src="/static/images/ton.png" style="max-height: 58px; margin-left:24px; margin-top: 10px; " class="img-responsive img-rounded" />
+                    <img src="/static/images/dlabs.png" style="max-height: 48px; margin-left:10px; margin-top: 10px;" class="img-responsive img-rounded" />
+                </div
+            </div>
+        </div>
+    </div>
+</body>
+</html>
