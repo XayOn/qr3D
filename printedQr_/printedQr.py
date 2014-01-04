@@ -56,7 +56,7 @@ class QRGen(object):
                         'y': - 1 * row + self.qr_base.modules_count / 2
                     }
 
-        result += "cube([qr_size,qr_size,1]).translate([-10, -10, -1]); }}"
+        result += "cube([qr_size,qr_size,1]).translate([-10, -10, -1])"
         result += ').scale([%s,%s,%s]);}' \
             % (self.scale, self.scale, self.scale)
         return result
