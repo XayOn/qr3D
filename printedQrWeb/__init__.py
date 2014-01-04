@@ -1,4 +1,4 @@
-from flask import Flask, render_template, make_response, request, current_app
+from flask import Flask, render_template, make_response, request, current_app, Response
 from printedQr_ import printedQr
 import os
 import subprocess
@@ -17,6 +17,16 @@ def getQr(text, scale):
     qr = printedQr.QRGen(scale, text)
     qr.make_qr()
     return qr.make_jscad()
+
+@app.route('/getQrScad/<text>/<scale>', methods=['GET', 'POST'])
+def getQrScad(text, scale):
+    qr = printedQr.QRGen(scale, text)
+    qr.make_qr()
+    return Response(
+        qr.make_scad(),
+        mimetype="text/plain",
+        headers={"Content-Disposition":"attachment;filename=printedqr.scad"}
+    )
 
 def server():
     """ Main server, will allow us to make it wsgi'able """
