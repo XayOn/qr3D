@@ -15,8 +15,8 @@ def index():
 @app.route('/getQr/<text>/<scale>', methods=['GET', 'POST'])
 def getQr(text, scale):
     qr = printedQr.QRGen(scale, text)
-    qr.make_qrjs()
-    return qr.make_scad()
+    qr.make_qr()
+    return qr.make_jscad()
 
 def server():
     """ Main server, will allow us to make it wsgi'able """
