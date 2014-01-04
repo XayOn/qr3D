@@ -40,6 +40,28 @@ class QRGen(object):
         self.qr_base.add_data(self.data)
         self.qr_base.make(fit=True)
 
+    def make_jscad(self):
+        """
+            Generate the scad content
+            I took part of this code (translate and cubes)
+            from qr2scad, from l0b0: https://github.com/l0b0/qr2scad
+        """
+        result = "qr_size=" + str(self.qr_base.modules_count) + ";"
+        result += 'function main(){ return union('
+        for row in range(self.qr_base.modules_count):
+            for column in range(self.qr_base.modules_count):
+                if self.qr_base.modules[row][column]:
+                    result += 'cube({size:[0.99, 0.99, 1]}).translate([%(x)s, %(y)s, 0]),\n' % {
+                        'x': 1 * column - self.qr_base.modules_count / 2,
+                        'y': - 1 * row + self.qr_base.modules_count / 2
+                    }
+
+        result += "cube([qr_size,qr_size,1]).translate([-10, -10, -1]); }}"
+        result += ').scale([%s,%s,%s]);}' \
+            % (self.scale, self.scale, self.scale)
+        return result
+
+
     def make_scad(self):
         """
             Generate the scad content
@@ -123,7 +145,7 @@ def execute():
 
     if args.filename:
         with open(args.filename + ".scad", "w") as file_:
-            file_.write(qr.make_scad())
+            file_.write(qr.make_jscad())
         openscad_binary = "openscad"
 
         if sys.platform.startswith('win'):
@@ -142,7 +164,7 @@ def execute():
         log.info("Conversion finished, you'll find your stl in %s"
                  % (args.filename + ".stl"))
     else:
-        print qr.make_scad()
+        print qr.make_jscad()
 
 if __name__ == "__main__":
     execute()
