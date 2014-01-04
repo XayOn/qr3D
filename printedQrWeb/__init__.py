@@ -15,19 +15,8 @@ def index():
 @app.route('/getQr/<text>/<scale>', methods=['GET', 'POST'])
 def getQr(text, scale):
     qr = printedQr.QRGen(scale, text)
-
-    with tempfile.NamedTemporaryFile(dir="/var/www/digenpy/static/", delete=False) as file_:
-        qr.make_qr()
-        file_.write(qr.make_scad())
-
-        with open("/tmp/openscad_log", 'w') as none:
-            current_app.logger.error('calling openscad')
-            subprocess.call([
-                    "/usr/bin/openscad", file_.name,
-                    "-o", file_.name + ".stl"]
-                , stdout=none, stderr=none
-            )
-        return file_.name.replace('/var/www/digenpy', '') + ".stl"
+    qr.make_qrjs()
+    return qr.make_scad()
 
 def server():
     """ Main server, will allow us to make it wsgi'able """
