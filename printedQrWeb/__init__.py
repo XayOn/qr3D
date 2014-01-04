@@ -1,4 +1,4 @@
-from flask import Flask, render_template, make_response, request
+from flask import Flask, render_template, make_response, request, current_app
 from printedQr_ import printedQr
 import os
 import subprocess
@@ -12,19 +12,20 @@ app.config['DEBUG'] = True
 def index():
     return render_template('index.html')
 
-
 @app.route('/getQr/<text>/<scale>', methods=['GET', 'POST'])
 def getQr(text, scale):
-    qr = printedQr.QRGen(scale=scale, data=text)
+    qr = printedQr.QRGen(scale, text)
 
     with tempfile.NamedTemporaryFile(dir="/var/www/digenpy/static/", delete=False) as file_:
+        qr.make_qr()
         file_.write(qr.make_scad())
+
         with open("/tmp/openscad_log", 'w') as none:
-            subprocess.call(
-                [
-                    "openscad", file_.name,
-                    "-o", file_.name + ".stl"
-                ], stdout=none, stderr=none
+            current_app.logger.error('calling openscad')
+            subprocess.call([
+                    "/usr/bin/openscad", file_.name,
+                    "-o", file_.name + ".stl"]
+                , stdout=none, stderr=none
             )
         return file_.name.replace('/var/www/digenpy', '') + ".stl"
 
