@@ -19,6 +19,6 @@ setup(
     packages=['qr_printer'],
     entry_points="""
         [console_scripts]
-        printer = qr_printer.printer:execute
+        qr_printer = qr_printer.printer:execute
     """,
 )
