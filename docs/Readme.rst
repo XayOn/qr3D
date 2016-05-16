@@ -1,34 +1,50 @@
-printedQr
-=========
+qr3D
+====
 
-Qr code message generator in 3D, ready to be printed by a 3D printer
+Ever wanted to have your custom QR code engraved?
+++++++++++++++++++++++++++++++++++++++++++++++++++
 
-With this, you can print a necklace, or some message to be left on your 3D printer, phisically.
+With qr3D you can easily generate your own openscad/stl/jscad 3D qr codes.
+Just ready for your 3D printer, or to add it to your designs!
+
+As an example use, you could attach it with openscadto your printed
+pieces with a link on it!
 
 .. warning::
-    It currently prints on only one single color, so you'll need to paint the surface with another
-    color.
+
+    It currently prints on only one single color, so you'll need to paint the
+    surface with another color or change colors in mid-print
 
 
 Example output
 --------------
 
-After printing with a prusa i3, this is the result (thanks to feliprint for the print! ;-) )
+After printing with a prusa i3, this is the result
+(thanks to feliprint for the print! ;-) )
 
 .. image:: /docs/qr.png
+
 
 Cli Usage
 ---------
 
 ::
 
-    Usage: qr_printer [OPTIONS]
+    Usage: qr3d [OPTIONS]
 
       Execute the stuff
 
     Options:
-      --scale INTEGER    QR code size scale
+      --scale INTEGER    QR code size scale (defaults to 4)
       --filename TEXT    filename
       --text TEXT        Text
       --fileformat TEXT  File format [stl|scad|jscad]
       --help             Show this message and exit.
+
+Example use:
+
+::
+
+    qr3d --scale 4 --filename foo.stl --fileformat stl --text "http://www.davidfrancos.net"
+
+You can see its output `here </docs/sample.stl>`_.
