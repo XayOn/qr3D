@@ -30,16 +30,17 @@ Cli Usage
 
 ::
 
-    Usage: qr3d [OPTIONS]
+		Usage: qr3d [OPTIONS]
 
-      Execute the stuff
+		  Qr3D - Create nice qr codes in jscad, scad or stl
 
-    Options:
-      --scale INTEGER    QR code size scale (defaults to 4)
-      --filename TEXT    filename
-      --text TEXT        Text
-      --fileformat TEXT  File format [stl|scad|jscad]
-      --help             Show this message and exit.
+		Options:
+		  --scale INTEGER    QR code size scale
+		  --filename TEXT    filename
+		  --text TEXT        Text
+		  --fileformat TEXT  File format [stl|scad|jscad]
+		  --help             Show this message and exit.
+
 
 Example use:
 

@@ -91,7 +91,7 @@ scale([{{q.scale}},{{q.scale}},{{q.scale}}]){
 @click.option('--fileformat', default="scad",
               help="File format [stl|scad|jscad]")
 def execute(scale, filename, fileformat, text):
-    """Execute the stuff"""
+    """Qr3D - Create nice qr codes in jscad, scad or stl """
     format_ = fileformat
     qrcodew = QRCode(filename=filename, scale=scale, data=text)
 
