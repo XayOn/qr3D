@@ -3,7 +3,7 @@ from distutils.core import setup
 
 setup(
     name='Qr3D',
-    version='1.0.0',
+    version='1.0.1',
     description='Print qr codes in stl, openscad or jscad',
     author='David Francos Cuartero',
     author_email='me@davidfrancos.net',

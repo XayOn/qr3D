@@ -1,20 +1,10 @@
-qr3D
-====
-
-Ever wanted to have your custom QR code engraved?
-++++++++++++++++++++++++++++++++++++++++++++++++++
+QR3D - 3d printing cool QR codes
+++++++++++++++++++++++++++++++++
 
 With qr3D you can easily generate your own openscad/stl/jscad 3D qr codes.
 Just ready for your 3D printer, or to add it to your designs!
-
 As an example use, you could attach it with openscadto your printed
 pieces with a link on it!
-
-.. warning::
-
-    It currently prints on only one single color, so you'll need to paint the
-    surface with another color or change colors in mid-print
-
 
 Example output
 --------------
@@ -30,16 +20,17 @@ Cli Usage
 
 ::
 
-    Usage: qr3d [OPTIONS]
+		Usage: qr3d [OPTIONS]
 
-      Execute the stuff
+		  Qr3D - Create nice qr codes in jscad, scad or stl
 
-    Options:
-      --scale INTEGER    QR code size scale (defaults to 4)
-      --filename TEXT    filename
-      --text TEXT        Text
-      --fileformat TEXT  File format [stl|scad|jscad]
-      --help             Show this message and exit.
+		Options:
+		  --scale INTEGER    QR code size scale
+		  --filename TEXT    filename
+		  --text TEXT        Text
+		  --fileformat TEXT  File format [stl|scad|jscad]
+		  --help             Show this message and exit.
+
 
 Example use:
 
