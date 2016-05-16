@@ -10,11 +10,11 @@ from jinja2 import Environment
 
 def render_template(func):
     """ Render a jinja2 template with the qr code as function """
-    template = func()
-
     def render(*args):
         """ Decorator """
-        return Environment().from_string(template).render(q=args[0])
+        template = func(*args)
+        result = Environment().from_string(template).render(q=args[0])
+        return result
 
     return render
 
@@ -48,47 +48,45 @@ class QRCode(object):
     def jscad(self):
         """ Format qr in jscad """
         return """
-        qr_size = {{q.qr_size}};
+qr_size = {{q.qr_size}};
 
-        function main(){
-            {
-                return union(
-                    {%for cube in q.cubes %}
-                        cube({size:[0.99, 0.99, 1]}).translate(
-                            [{{cube[0]}}, {{cube[1]}}, 0]),
-                    {% endfor %}
+function main(){
+{
+    return union(
+        {%for cube in q.cubes %}
+            cube({size:[0.99, 0.99, 1]}).translate(
+                [{{cube[0]}}, {{cube[1]}}, 0]),
+        {% endfor %}
 
-                    cube([{{q.qr_size}}, {{q.qr_size}}, 1]).translate(
-                        [-10, -10, -1])
+        cube([{{q.qr_size}}, {{q.qr_size}}, 1]).translate(
+            [-10, -10, -1])
 
-                ).scale([{{q.scale}}, {{q.scale}}, {{q.scale}}]);
-            }
-        }
-        """
+    ).scale([{{q.scale}}, {{q.scale}}, {{q.scale}}]);
+}
+}"""
 
     @render_template
     def scad(self):
         """ Format qr in openscad """
         return """
-                qr_size={{q.qr_size}}
-                module qrcode() {
-                    {%for cube in q.cubes %}
-                        translate([{{cube[0]}}, {{cube[1]}}, 0])
-                    {%endfor%}
-                    cube([0.99, 0.99, 1]);
-                }
-                scale([{{q.scale}},{{q.scale}},{{q.scale}}]){ union(){
-                    qrcode();
-                    translate([-10, -10, -1]) cube([qr_size,qr_size,1]);
-                }}
-        """
+qr_size={{q.qr_size}};
+module qrcode(){
+    {%for cube in q.cubes %}translate([{{cube[0]}}, {{cube[1]}}, 0])
+    {%endfor%}
+    cube([0.99, 0.99, 1]);
+}
+scale([{{q.scale}},{{q.scale}},{{q.scale}}]){ union(){
+    qrcode();
+    translate([-10, -10, -1]) cube([qr_size,qr_size,1]);
+}}"""
 
 
 @click.command()
 @click.option('--scale', default=4, help="QR code size scale")
 @click.option('--filename', default='/dev/stdout', help="filename")
 @click.option('--text', help="Text")
-@click.option('--fileformat', help="File format [stl|scad|jscad]")
+@click.option('--fileformat', default="scad",
+              help="File format [stl|scad|jscad]")
 def execute(scale, filename, fileformat, text):
     """Execute the stuff"""
     format_ = fileformat
@@ -98,7 +96,7 @@ def execute(scale, filename, fileformat, text):
         format_ = "scad"
 
     with open(qrcodew.filename, 'w') as file_:
-        file_.write(getattr(qrcodew, format_))
+        file_.write(getattr(qrcodew, format_)())
 
     if fileformat == "stl":
         subprocess.check_call([

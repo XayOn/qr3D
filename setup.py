@@ -2,23 +2,19 @@
 from distutils.core import setup
 
 setup(
-    name='printer',
-    version='0.4',
-    description='Print qr codes in Stl or scad',
+    name='Qr3D',
+    version='0.5',
+    description='Print qr codes in stl, openscad or jscad',
     author='David Francos Cuartero',
     author_email='me@davidfrancos.net',
-    windows=[{"script": "printer.py"}],
-    console=[{"script": "printer.py"}],
-    url='http://github.com/dlabs-co/printer',
-    download_url='http://github.com/dlabs-co/printer',
+    url='http://github.com/dlabs-co/Qr3D',
+    download_url='http://github.com/XayOn/Qr3D',
     license='GPL2',
-    requires=['qrcode', 'click'],
-    mantainer='David Francos Cuartero (XayOn)',
-    mantainer_email='dfrancos@dlabs.co',
+    install_requires=['qrcode', 'click', 'jinja2'],
     long_description="Print qr codes in stl or scad",
-    packages=['qr_printer'],
+    packages=['qr3d'],
     entry_points="""
         [console_scripts]
-        qr_printer = qr_printer.printer:execute
+        qr3d = qr3d:execute
     """,
 )
