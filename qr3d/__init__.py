@@ -71,14 +71,15 @@ function main(){
         return """
 qr_size={{q.qr_size}};
 module qrcode(){
-    {%for cube in q.cubes %}translate([{{cube[0]}}, {{cube[1]}}, 0])
-    {%endfor%}
-    cube([0.99, 0.99, 1]);
+    {%for cube in q.cubes %}
+    translate([{{cube[0]}}, {{cube[1]}}, 0]) cube([0.99, 0.99, 1]);{%endfor%}
 }
-scale([{{q.scale}},{{q.scale}},{{q.scale}}]){ union(){
-    qrcode();
-    translate([-10, -10, -1]) cube([qr_size,qr_size,1]);
-}}"""
+scale([{{q.scale}},{{q.scale}},{{q.scale}}]){
+    union(){
+        qrcode();
+        translate([-10, -10, -1]) cube([qr_size,qr_size,1]);
+    }
+}"""
 
 
 @click.command()
