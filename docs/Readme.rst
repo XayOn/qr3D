@@ -36,6 +36,17 @@ Example use:
 
 ::
 
-    qr3d --scale 4 --filename foo.stl --fileformat stl --text "http://www.davidfrancos.net"
+    qr3d --scale 4 --filename foo.stl --fileformat stl --text \
+            "http://www.davidfrancos.net"
 
 You can see its output `here </docs/sample.stl>`_.
+
+
+Like this software?
+-------------------
+
+If you like qr3d, the best way to show your appreciation is to star this
+project. Since supermario world I've always liked to collect stars!
+
+.. image:: http://www.retroreviewproject.com/wp-content/uploads/2012/07/star-huge.gif
+
