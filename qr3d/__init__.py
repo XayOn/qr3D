@@ -31,6 +31,7 @@ class QRCode(object):
         self.qr_base.add_data(data)
         self.qr_base.make(fit=True)
         self.qr_size = self.qr_base.modules_count
+        self.qr_half = int(self.qr_size / 2)
 
     @property
     def cubes(self):
@@ -59,7 +60,7 @@ function main(){
         {% endfor %}
 
         cube([{{q.qr_size}}, {{q.qr_size}}, 1]).translate(
-            [-10, -10, -1])
+            [-{{q.qr_half}}, -{{q.qr_half}}, -1])
 
     ).scale([{{q.scale}}, {{q.scale}}, {{q.scale}}]);
 }
@@ -77,7 +78,8 @@ module qrcode(){
 scale([{{q.scale}},{{q.scale}},{{q.scale}}]){
     union(){
         qrcode();
-        translate([-10, -10, -1]) cube([qr_size,qr_size,1]);
+        translate([-{{q.qr_half}}, -{{q.qr_half}},
+                    -1]) cube([{{q.qr_size}},{{q.qr_size}},1]);
     }
 }"""
 
