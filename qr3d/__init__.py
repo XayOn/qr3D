@@ -5,6 +5,7 @@
 import qrcode
 import click
 import subprocess
+from itertools import permutations
 from jinja2 import Environment
 
 
@@ -36,14 +37,11 @@ class QRCode(object):
     @property
     def cubes(self):
         """ Calculate all cubes for the qr code """
-        cubes = []
-        for row in range(self.qr_size):
-            for column in range(self.qr_size):
-                if not self.qr_base.modules[row][column]:
-                    continue
-                cubes.append([1 * column - self.qr_size / 2,
-                              - 1 * row + self.qr_size / 2])
-        return cubes
+        for row, column in permutations(range(self.qr_size), 2):
+            if not self.qr_base.modules[row][column]:
+                continue
+            yield [1 * column - self.qr_size / 2,
+                  - 1 * row + self.qr_size / 2]
 
     @render_template
     def jscad(self):
