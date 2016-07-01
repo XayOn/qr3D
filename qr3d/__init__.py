@@ -1,12 +1,23 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
-"""Convert qr codes to jscad, openscad and stl"""
+"""
+Qr3D - Create nice qr codes in jscad, scad or stl
 
-import qrcode
-import click
-import subprocess
+Usage: qr3d --scale <INTEGER> --filename <FILENAME> --text <TEXT> --fileformat <FORMAT>
+
+Options:
+  --scale INTEGER    QR code size scale
+  --filename TEXT    filename
+  --text TEXT        Text
+  --fileformat TEXT  File format [stl|scad|jscad] [default: scad]
+  --help             Show this message and exit.
+"""
+
 from itertools import permutations
+import subprocess
+import qrcode
 from jinja2 import Environment
+from docopt import docopt
 
 
 def render_template(func):
@@ -22,14 +33,14 @@ def render_template(func):
 
 class QRCode(object):
     """Main class, generates qr code and scad"""
-    def __init__(self, filename, scale=4, data=""):
+    def __init__(self, filename, scale=4, text=""):
         self.scale = scale
         self.filename = filename
         self.qr_base = qrcode.QRCode(
             version=1, error_correction=qrcode.constants.ERROR_CORRECT_L,
             box_size=10, border=4,
         )
-        self.qr_base.add_data(data)
+        self.qr_base.add_data(text)
         self.qr_base.make(fit=True)
         self.qr_size = self.qr_base.modules_count
         self.qr_half = int(self.qr_size / 2)
@@ -41,7 +52,7 @@ class QRCode(object):
             if not self.qr_base.modules[row][column]:
                 continue
             yield [1 * column - self.qr_size / 2,
-                  - 1 * row + self.qr_size / 2]
+                   - 1 * row + self.qr_size / 2]
 
     @render_template
     def jscad(self):
@@ -82,17 +93,13 @@ scale([{{q.scale}},{{q.scale}},{{q.scale}}]){
 }"""
 
 
-@click.command()
-@click.option('--scale', default=4, help="QR code size scale")
-@click.option('--filename', default='/dev/stdout', help="filename")
-@click.option('--text', help="Text")
-@click.option('--fileformat', default="scad",
-              help="File format [stl|scad|jscad]")
-def execute(scale, filename, fileformat, text):
+def execute():
     """Qr3D - Create nice qr codes in jscad, scad or stl """
-    format_ = fileformat
-    qrcodew = QRCode(filename=filename, scale=scale, data=text)
+    opts = docopt(__doc__, version="0.0.1")
+    fileformat = opts.pop('--fileformat')
+    qrcodew = QRCode(**{b[2:]: val for b, val in opts.items()})
 
+    format_ = fileformat
     if fileformat == "stl":
         format_ = "scad"
 
