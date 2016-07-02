@@ -1,22 +1,37 @@
-QR3D - 3d printing cool QR codes
-++++++++++++++++++++++++++++++++
+\:floppy_disk\: QR3D
+--------------------
 
-With qr3D you can easily generate your own openscad/stl/jscad 3D qr codes.
-Just ready for your 3D printer, or to add it to your designs!
-As an example use, you could attach it with openscadto your printed
-pieces with a link on it!
+.. image:: http://i.imgur.com/ezLmsVU.png
 
-Example output
---------------
+Cool CLI tool to easily create STL/OpenSCAD files for QR codes
+with specified text.
 
-After printing with a prusa i3, this is the result
-(thanks to feliprint for the print! ;-) )
+.. contents:: :local:
 
-.. image:: /docs/qr.png
+What can be this used for
+++++++++++++++++++++++++++
+
+This allows you to print any `QR Code <https://en.wikipedia.org/wiki/QR_code>`_
+with a 3D printer.
+
+That can be useful for:
+
+    - Embedding in openscad objects for authorship tagging
+    - Strange 3Dprinted visit cards
+    - Cool geeky-makey stuff
+
+Supported formats
+=================
+
+QR3D Outputs currently the following formats:
+
+    - OpenSCAD
+    - JScad
+    - STL (requires openscad installed)
 
 
-Cli Usage
----------
+Usage
++++++
 
 ::
 
@@ -39,14 +54,11 @@ Example use:
     qr3d --scale 4 --filename foo.stl --fileformat stl --text \
             "http://www.davidfrancos.net"
 
-You can see its output `here </docs/sample.stl>`_.
+Have a look at a result STL in github's stl viewer `here <sample.stl>`_.
 
 
-Like this software?
--------------------
+Thanks
+++++++
 
-If you like qr3d, the best way to show your appreciation is to star this
-project. Since supermario world I've always liked to collect stars!
-
-.. image:: http://www.retroreviewproject.com/wp-content/uploads/2012/07/star-huge.gif
-
+I'd like to give a special thanks to Feliprint, who made the first
+print with this tool (the one documented on the photo!)
